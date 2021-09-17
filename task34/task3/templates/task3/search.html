@@ -9,6 +9,10 @@
   <body>
     <h2>Hello</h2>
     <h2>Search using Firstname</h2>
+    {% if error %}
+        <h4>{{ error }}</h4>
+    {% endif %}
+
     <form method="post" action="/search/">
       {% csrf_token %}
       <input
@@ -22,15 +26,8 @@
       <button class="btn btn-outline-success" type="submit">Search</button>
     </form>
     <br /><br />
-
-    {% if messages %}
-    <ul class="messages">
-      {% for res in messages %}
-      <!-- red color message if user not found -->
-      <li style="color: red">{{ res }}</li>
-      {% endfor %}
-    </ul>
-    {% endif %} {% if searched %}
+    
+    {% if searched %}
     <h2 class="mb-2">You Searched For {{ res.firstname }}</h2>
     {% for res in res %}
     <!-- <h3 class="text-capitalize">Username: {{ res.username }}</h3> -->
@@ -42,7 +39,7 @@
     
 
     {% endfor %} {% else %}
-    <h2 class="text-capitalize">search field empty Type something!!</h2>
+    <h2 class="text-capitalize">Enter valid crdentials to search</h2>
     {% endif %}
     <hr />
     <div class="border-top pt-3">
