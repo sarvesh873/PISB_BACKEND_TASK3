@@ -101,13 +101,15 @@ def logout(request):
 
 def search(request):
     if request.method== 'POST':
-        searched = request.POST['searched']
-        res = extendeduser.objects.filter(Q(firstname__contains=searched ) )
-                                            
-        return render(request,'task3/search.html',{'searched':searched ,'res':res})
+       searched = request.POST['searched']
+       res = extendeduser.objects.filter(Q(firstname__contains=searched ) )
+       if res:
+                return render(request,'task3/search.html',{'searched':searched ,'res':res})         
+       else:
+                return render(request, 'task3/search.html',{'error': "No user Find"})
     else:
      
-        return render(request,'task3/search.html',{})
+        return render(request,'task3/search.html')
 
 @login_required(login_url='login')
 def profile(request):
