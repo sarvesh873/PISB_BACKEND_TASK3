@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  
+  <title>Document</title>
+  {% load static %}
+  <link rel="stylesheet" href="{% static 'home.css' %}">
+</head>
+<body>
+  <form action="{% url 'glad-about' %}" method="POST">
+    {% csrf_token %}
+    <div class="j">
+      <h2 class="l">Enter a number upto which the number series is required</h2>
+      <br>
+      <br>
+      
+      <h3 class="s"> Enter a Positive Number : <input type="text" name="number"></h3>
+      <br>
+      <br>
+      
+      
+      
+      <input type="submit" > 
+    </div>  
+    </form>
+    
+        
+</body>
+</html>

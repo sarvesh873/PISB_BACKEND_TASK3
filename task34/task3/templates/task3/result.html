@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>home</title>
+</head>
+<body>
+    {% csrf_token %}
+
+    <h2>Hello</h2>
+    <h2>You have succesfully Logged in  </h2>
+    <h3>Your username is {{ user.username }}</h3>
+    
+    {% for d in data %}
+        <h3>You have an email id : {{ d.email }}</h3>
+        <h3>Your Firstname : {{ d.firstname }}</h3>
+        <h3>Your Lastname : {{ d.lstname }}</h3>
+        <h3>Your Phonenumber : {{ d.number }}</h3>
+        <h3>Gender : {{ d.gender }}</h3>
+        
+    {% endfor %}
+    
+
+     <a class="button" type="submit" href="{% url 'logout' %}" >logout</a>
+    
+
+
+</body>
+</html>

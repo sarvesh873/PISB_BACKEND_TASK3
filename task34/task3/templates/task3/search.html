@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h2>Hello</h2>
+    <h2>Search using Firstname</h2>
+    <form method="post" action="/search/">
+      {% csrf_token %}
+      <input
+        class="form-control me-2"
+        type="search"
+        name="searched"
+        placeholder="Search"
+        aria-label="Search"
+        size="40"
+      />
+      <button class="btn btn-outline-success" type="submit">Search</button>
+    </form>
+    <br /><br />
+
+    {% if messages %}
+    <ul class="messages">
+      {% for res in messages %}
+      <!-- red color message if user not found -->
+      <li style="color: red">{{ res }}</li>
+      {% endfor %}
+    </ul>
+    {% endif %} {% if searched %}
+    <h2 class="mb-2">You Searched For {{ res.firstname }}</h2>
+    {% for res in res %}
+    <!-- <h3 class="text-capitalize">Username: {{ res.username }}</h3> -->
+    <h3 class="m-0">Firsstname : {{res.firstname}}</h3>
+    <h3 class="m-0">Lastname : {{res.lstname}}</h3>
+    <h3 class="m-0">Phonenumber: {{res.number}}</h3>
+    <h3 class="m-0">Email id: {{res.email}}</h3>
+    <h3 class="m-0">Gender : {{res.gender}}</h3>
+    
+
+    {% endfor %} {% else %}
+    <h2 class="text-capitalize">search field empty Type something!!</h2>
+    {% endif %}
+    <hr />
+    <div class="border-top pt-3">
+      <small class="text-muted">
+        <h3>
+          Have an Account <a class="ml-2" href="{% url 'login' %}">Login </a>
+        </h3>
+      </small>
+    </div>
+    <div class="border-top pt-3">
+      <small class="text-muted">
+        <h3>
+          <h3>
+            Dont have an Account?
+            <a class="ml-2" href="{% url 'signup' %}">Sign up </a>
+          </h3>
+        </h3>
+      </small>
+    </div>
+  </body>
+</html>
