@@ -1,0 +1,128 @@
+{% extends 'Quiz/layout.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-sm-10 text-center">
+            <h1>This is Quiz</h1>
+        </div>
+        <div class="col-sm-2">
+            <h2 id="timer">-------</h2>
+        </div>
+    </div>
+    <div class="row ">
+        <div class="col offset-sm-2">
+            <h3>{{question.question}}</h3>
+        </div>
+    </div>
+    <div class="row ">
+        <div class="col offset-sm-2">
+            <form action="{% url 'Quiz' next %}" method="post" id="saveNnext">
+                {% csrf_token %}
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" id="opt1" value="1" name="user_response">
+                    <label class="form-check-label">
+                        1. {{question.option_1}}
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" id="opt2" value="2" name="user_response">
+                    <label class="form-check-label">
+                        2. {{question.option_2}}
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" id="opt3" value="3" name="user_response">
+                    <label class="form-check-label">
+                        3. {{question.option_3}}
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" id="opt4" value="4" name="user_response">
+                    <label class="form-check-label">
+                        4. {{question.option_4}}
+                    </label>
+                </div>
+                <input type="hidden" name="save_n_next" value="save_n_next">
+            </form>
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="col text-center">
+            <a class="btn btn-primary" href="{% url 'Quiz' prev %}" role="button" id="prev-btn"
+                type="button">Previous</a>
+            <a class="btn btn-success" onclick="save_n_next()" role="button" id="next-btn" type="button">Save and
+                Next</a>
+            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#confirmSubmitModal">
+                Submit
+            </button>
+        </div>
+    </div>
+
+
+
+    <!-- <div id="timer">_____</div> -->
+
+    <form action="{% url 'endquiz' %}" method="post" id="endQuizForm">
+        {% csrf_token %}
+        <input type="hidden" name="end" value="timeUp">
+    </form>
+
+    {% if question.pk >= 10 %}
+    <script>
+        document.getElementById('next-btn').innerHTML = "Save";
+    </script>
+    {% endif %}
+    {% if question.pk <= 1 %} <script>
+        document.getElementById('prev-btn').classList.add('disabled');
+        </script>
+        {% endif %}
+
+
+</div>
+{% include 'Quiz/confirmSubmit.html' %}
+<script>
+    var counter = 0;
+    var total_time = 150000;
+
+    function formatTime(s) {
+        var min = ("0" + Math.floor(s / 60)).slice(-2);
+        var sec = ("0" + s % 60).slice(-2);
+
+        return `${min}:${sec}`
+    }
+
+    function startTimer() {
+        timer = document.getElementById('timer');
+        timer.innerHTML = formatTime(total_time - counter);
+        function secIncrement() {
+            counter++;
+            timer.innerHTML = formatTime(total_time - counter);
+
+            if (counter == total_time) {
+                clearInterval(interval);
+                document.getElementById("endQuizForm").submit();
+            }
+
+        }
+
+
+        var interval = setInterval(secIncrement, 1000);
+
+    }
+    startTimer();
+
+    // display selected radio
+        document.getElementById("opt{{user_res.selected_option}}").checked = true;
+        console.log("{{user_res.selected_option}}")
+
+
+    // Save and next
+    function save_n_next(){
+        document.getElementById('saveNnext').submit();
+        console.log("called");
+    }
+</script>
+
+{% endblock content %}
